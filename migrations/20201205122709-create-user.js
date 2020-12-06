@@ -16,6 +16,9 @@ module.exports = {
       password: {
         type: Sequelize.STRING,
       },
+      salt: {
+        type: Sequelize.STRING,
+      },
       role: {
         type: Sequelize.ENUM("Admin", "Guest"),
         default: "Guest",

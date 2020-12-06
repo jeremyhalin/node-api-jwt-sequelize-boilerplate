@@ -1,14 +1,7 @@
 "use strict";
-
 const { Model } = require("sequelize");
 const crypto = require("crypto");
-
-const setSaltAndPassword = (user) => {
-  if (user.changed("password")) {
-    user.salt = User.generateSalt();
-    user.password = User.encryptPassword(user.password(), user.salt());
-  }
-};
+const { generateSalt, generateSecuredHash } = require("../helpers/security");
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -36,33 +29,28 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      role: DataTypes.ENUM("Admin", "Guest"),
+      role: {
+        type: DataTypes.ENUM("Admin", "Guest"),
+        allowNull: false,
+        default: "Guest",
+      },
     },
     {
       sequelize,
       modelName: "User",
+      underscored: true,
+      tableName: "users",
+
+      hooks: {
+        beforeValidate: (user, options) => {
+          if (user.changed("password")) {
+            user.salt = generateSalt();
+            user.password = generateSecuredHash(user.password, user.salt);
+          }
+        },
+      },
     }
   );
-
-  User.generateSalt = function () {
-    return crypto.randomBytes(16).toString("base64");
-  };
-  User.encryptPassword = function (plainText, salt) {
-    return crypto
-      .createHash("RSA-SHA256")
-      .update(plainText)
-      .update(salt)
-      .digest("hex");
-  };
-
-  User.beforeCreate(setSaltAndPassword);
-  User.beforeUpdate(setSaltAndPassword);
-
-  User.prototype.correctPassword = function (enteredPassword) {
-    return (
-      User.encryptPassword(enteredPassword, this.salt()) === this.password()
-    );
-  };
 
   return User;
 };
