@@ -162,8 +162,6 @@ router.post("/login", async (req, res, next) => {
         type: "user",
         id: user.id,
         attributes: {
-          firstname: user.firstname,
-          lastname: user.lastname,
           email: user.email,
           created_at: user.created_at,
           updated_at: user.updated_at,
