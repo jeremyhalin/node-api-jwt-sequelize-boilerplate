@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon app.js",
-    "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --detectOpenHandles"
+    "test": "NODE_ENV=test jest --testTimeout=10000 --detectOpenHandles"
   },
   "dependencies": {
     "debug": "~2.6.9",
