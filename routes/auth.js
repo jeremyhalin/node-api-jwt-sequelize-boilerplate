@@ -5,7 +5,7 @@ const models = require("../models");
 const VerifyToken = require("../middlewares/verifyToken");
 
 const router = express.Router();
-const { ErrorHandler } = require("../helpers/ErrorHandler");
+const { ErrorHandler } = require("../helpers/errorHandler");
 const { createRefreshToken, createToken } = require("../helpers/token");
 const { checkHash } = require("../helpers/security");
 require("dotenv").config();
