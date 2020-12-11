@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: test
-      JWT_SECRET: secret
 
     strategy:
       matrix:
@@ -24,6 +23,10 @@ jobs:
       - name: Start MySQL
         run: sudo service mysql start
       - uses: actions/checkout@v2
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          JWT_SECRET: secret
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
