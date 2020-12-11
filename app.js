@@ -2,7 +2,7 @@ var express = require("express");
 var logger = require("morgan");
 require("dotenv").config();
 
-const { handleError } = require("./helpers/ErrorHandler");
+const { handleError } = require("./helpers/errorHandler");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
