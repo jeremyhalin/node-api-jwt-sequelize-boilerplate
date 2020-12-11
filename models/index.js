@@ -10,15 +10,6 @@ const db = {};
 
 const sequelize = new Sequelize(config);
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.info("Connection has been established successfully.");
-  })
-  .catch((err) => {
-    console.error("Unable to connect to the database:", err.message);
-  });
-
 fs.readdirSync(__dirname)
   .filter((file) => {
     return (
