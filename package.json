@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "start": "nodemon app.js",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --detectOpenHandles"
   },
   "dependencies": {
     "debug": "~2.6.9",
@@ -18,5 +20,11 @@
     "nodemon": "^2.0.6",
     "sequelize-cli": "^6.2.0",
     "supertest": "^6.0.1"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
