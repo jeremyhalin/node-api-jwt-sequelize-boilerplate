@@ -18,8 +18,6 @@ describe("Auth Endpoints", () => {
 
     expect(response.body.data.type).toBe("user");
     expect(response.body.data.id).toBeDefined();
-    expect(response.body.data.attributes.firstname).toBeDefined();
-    expect(response.body.data.attributes.lastname).toBeDefined();
     expect(response.body).toHaveProperty("included");
     expect(response.body.included[0].type).toBe("token");
     expect(response.body.included[1].type).toBe("refresh_token");
@@ -33,8 +31,6 @@ describe("Auth Endpoints", () => {
       password,
     });
     expect(response.body.data.type).toBe("user");
-    expect(response.body.data.attributes.firstname).toBeDefined();
-    expect(response.body.data.attributes.lastname).toBeDefined();
     expect(response.body.data.attributes.email).toBeDefined();
     expect(response.body.data.id).toBeDefined();
     expect(response.status).toBe(HttpStatus.OK);

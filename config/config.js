@@ -8,6 +8,7 @@ module.exports = {
     host: process.env.DB_HOSTNAME,
     port: process.env.DB_PORT,
     dialect: process.env.DB_DIALECT,
+    logging: true,
   },
   test: {
     username: "root",
@@ -16,6 +17,7 @@ module.exports = {
     host: "127.0.0.1",
     port: 3306,
     dialect: "mysql",
+    logging: false,
   },
   production: {
     username: process.env.DB_USERNAME,
@@ -24,5 +26,6 @@ module.exports = {
     host: process.env.DB_HOSTNAME,
     port: process.env.DB_PORT,
     dialect: process.env.DB_DIALECT,
+    logging: false,
   },
 };

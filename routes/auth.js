@@ -76,10 +76,9 @@ router.post("/register", async (req, res, next) => {
         id: userCreated.id,
         attributes: {
           email: userCreated.email,
-          firstname: userCreated.firstname,
-          lastname: userCreated.lastname,
-          created_at: userCreated.created_at,
-          updated_at: userCreated.updated_at,
+          role: userCreated.role,
+          created_at: userCreated.createdAt,
+          updated_at: userCreated.updatedAt,
         },
       },
       included: [

@@ -28,7 +28,4 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: npx sequelize db:drop
-      - run: npx sequelize db:create
-      - run: npx sequelize db:migrate
       - run: npm run test
