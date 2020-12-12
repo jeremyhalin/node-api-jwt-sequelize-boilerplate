@@ -5,7 +5,7 @@ const models = require("../models");
 const VerifyToken = require("../middlewares/verifyToken");
 
 const router = express.Router();
-const { ErrorHandler } = require("../helpers/ErrorHandler");
+const { ErrorHandler } = require("../helpers/errorHandler");
 const { createRefreshToken, createToken } = require("../helpers/token");
 const { checkHash } = require("../helpers/security");
 require("dotenv").config();
@@ -76,10 +76,9 @@ router.post("/register", async (req, res, next) => {
         id: userCreated.id,
         attributes: {
           email: userCreated.email,
-          firstname: userCreated.firstname,
-          lastname: userCreated.lastname,
-          created_at: userCreated.created_at,
-          updated_at: userCreated.updated_at,
+          role: userCreated.role,
+          created_at: userCreated.createdAt,
+          updated_at: userCreated.updatedAt,
         },
       },
       included: [
@@ -163,9 +162,8 @@ router.post("/login", async (req, res, next) => {
         type: "user",
         id: user.id,
         attributes: {
-          firstname: user.firstname,
-          lastname: user.lastname,
           email: user.email,
+          role: user.role,
           created_at: user.created_at,
           updated_at: user.updated_at,
         },

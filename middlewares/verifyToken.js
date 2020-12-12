@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const HttpStatus = require("http-status-codes");
-const { ErrorHandler } = require("../helpers/ErrorHandler");
+const { ErrorHandler } = require("../helpers/errorHandler");
 require("dotenv").config();
 
 async function verifyToken(req, res, next) {

@@ -1,6 +1,5 @@
 "use strict";
 const { Model } = require("sequelize");
-const crypto = require("crypto");
 const { generateSalt, generateSecuredHash } = require("../helpers/security");
 
 module.exports = (sequelize, DataTypes) => {
@@ -31,8 +30,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       role: {
         type: DataTypes.ENUM("Admin", "Guest"),
-        allowNull: false,
-        default: "Guest",
+        allowNull: true,
+        defaultValue: "Guest",
       },
     },
     {
