@@ -1,7 +1,7 @@
 "use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("JwtRefreshTokens", {
+    await queryInterface.createTable("jwt_refresh_tokens", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -27,6 +27,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("JwtRefreshTokens");
+    await queryInterface.dropTable("jwt_refresh_tokens");
   },
 };

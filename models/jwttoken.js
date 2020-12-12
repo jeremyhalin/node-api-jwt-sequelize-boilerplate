@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: "JwtToken",
       underscored: true,
-      tableName: "jwttokens",
+      tableName: "jwt_tokens",
     }
   );
   return JwtToken;
