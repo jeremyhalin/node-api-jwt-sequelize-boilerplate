@@ -1,18 +1,35 @@
-var express = require("express");
-var logger = require("morgan");
+const express = require("express");
+const morgan = require("morgan");
 require("dotenv").config();
 
 const { handleError } = require("./helpers/errorHandler");
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-var authRouter = require("./routes/auth");
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/users");
+const authRouter = require("./routes/auth");
 
-var app = express();
+const app = express();
 
-if (process.env === "development" || process.env === "production") {
-  app.use(logger("dev"));
+if (app.get("env") === "production") {
+  const fs = require("fs");
+  const path = require("path");
+  var rfs = require("rotating-file-stream");
+
+  const logPath = path.join(__dirname, "log");
+  if (!fs.existsSync(logPath)) {
+    fs.mkdirSync(logPath);
+  }
+  const accessLogStream = rfs.createStream("access.log", {
+    interval: "1d", // rotate daily
+    path: path.join(__dirname, "log"),
+  });
+  // log to a file
+  app.use(morgan("combined", { stream: accessLogStream }));
+} else {
+  // log to stdout
+  app.use(morgan("dev"));
 }
+
 app.use(express.json());
 app.use("/", indexRouter);
 app.use("/api/v1/users", usersRouter);

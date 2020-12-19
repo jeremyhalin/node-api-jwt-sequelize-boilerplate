@@ -8,7 +8,7 @@ module.exports = {
     host: process.env.DB_HOSTNAME,
     port: process.env.DB_PORT,
     dialect: process.env.DB_DIALECT,
-    logging: true,
+    logging: console.log,
   },
   test: {
     username: "root",
