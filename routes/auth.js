@@ -1,8 +1,8 @@
-const HttpStatus = require("http-status-codes");
 const jwt = require("jsonwebtoken");
 const express = require("express");
 const models = require("../models");
 const VerifyToken = require("../middlewares/verifyToken");
+const { StatusCodes } = require("http-status-codes");
 
 const router = express.Router();
 const { ErrorHandler } = require("../helpers/errorHandler");
@@ -13,10 +13,10 @@ require("dotenv").config();
 router.post("/register", async (req, res, next) => {
   try {
     if (!req.body.email) {
-      throw new ErrorHandler(HttpStatus.BAD_REQUEST, "Email is required.");
+      throw new ErrorHandler(StatusCodes.BAD_REQUEST, "Email is required.");
     }
     if (!req.body.password) {
-      throw new ErrorHandler(HttpStatus.BAD_REQUEST, "Password is required.");
+      throw new ErrorHandler(StatusCodes.BAD_REQUEST, "Password is required.");
     }
 
     // check if email already exists
@@ -26,7 +26,7 @@ router.post("/register", async (req, res, next) => {
 
     if (doesUserExist) {
       throw new ErrorHandler(
-        HttpStatus.CONFLICT,
+        StatusCodes.CONFLICT,
         `A user with email ${req.body.email} already exists`
       );
     }
@@ -44,7 +44,7 @@ router.post("/register", async (req, res, next) => {
     });
     if (!newToken) {
       throw new ErrorHandler(
-        HttpStatus.INTERNAL_SERVER_ERROR,
+        StatusCodes.INTERNAL_SERVER_ERROR,
         "Couldn't create token"
       );
     }
@@ -59,7 +59,7 @@ router.post("/register", async (req, res, next) => {
 
     if (!newRefreshToken) {
       throw new ErrorHandler(
-        HttpStatus.INTERNAL_SERVER_ERROR,
+        StatusCodes.INTERNAL_SERVER_ERROR,
         "Couldn't create refresh token"
       );
     }
@@ -70,7 +70,7 @@ router.post("/register", async (req, res, next) => {
       process.env.JWT_SECRET
     );
 
-    res.status(HttpStatus.CREATED).json({
+    res.status(StatusCodes.CREATED).json({
       data: {
         type: "user",
         id: userCreated.id,
@@ -106,11 +106,11 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
   try {
     if (!req.body.email) {
-      throw new ErrorHandler(HttpStatus.BAD_REQUEST, "No email provided");
+      throw new ErrorHandler(StatusCodes.BAD_REQUEST, "No email provided");
     }
 
     if (!req.body.password) {
-      throw new ErrorHandler(HttpStatus.BAD_REQUEST, "No password provided");
+      throw new ErrorHandler(StatusCodes.BAD_REQUEST, "No password provided");
     }
 
     const user = await models.User.findOne({
@@ -118,7 +118,7 @@ router.post("/login", async (req, res, next) => {
     });
     if (!user || !checkHash(req.body.password, user.salt, user.password)) {
       throw new ErrorHandler(
-        HttpStatus.UNAUTHORIZED,
+        StatusCodes.UNAUTHORIZED,
         "Wrong email or password"
       );
     }
@@ -131,7 +131,7 @@ router.post("/login", async (req, res, next) => {
     });
     if (!newToken) {
       throw new ErrorHandler(
-        HttpStatus.INTERNAL_SERVER_ERROR,
+        StatusCodes.INTERNAL_SERVER_ERROR,
         "Couldn't create token"
       );
     }
@@ -146,7 +146,7 @@ router.post("/login", async (req, res, next) => {
 
     if (!newRefreshToken) {
       throw new ErrorHandler(
-        HttpStatus.INTERNAL_SERVER_ERROR,
+        StatusCodes.INTERNAL_SERVER_ERROR,
         "Couldn't create refresh token"
       );
     }
@@ -157,7 +157,7 @@ router.post("/login", async (req, res, next) => {
       process.env.JWT_SECRET
     );
 
-    res.status(HttpStatus.OK).json({
+    res.status(StatusCodes.OK).json({
       data: {
         type: "user",
         id: user.id,
@@ -198,7 +198,7 @@ router.post("/refresh", async (req, res, next) => {
     );
 
     if (!refreshToken) {
-      throw new ErrorHandler(HttpStatus.FORBIDDEN, "Refresh token expired");
+      throw new ErrorHandler(StatusCodes.FORBIDDEN, "Refresh token expired");
     }
 
     // get user by token
@@ -210,7 +210,7 @@ router.post("/refresh", async (req, res, next) => {
 
     if (!refreshTokenInDb) {
       throw new ErrorHandler(
-        HttpStatus.NOT_FOUND,
+        StatusCodes.NOT_FOUND,
         "Refresh token doesn't exist"
       );
     }
@@ -243,7 +243,7 @@ router.post("/refresh", async (req, res, next) => {
       process.env.JWT_SECRET
     );
 
-    res.status(HttpStatus.ACCEPTED).json({
+    res.status(StatusCodes.ACCEPTED).json({
       data: {
         type: "token",
         attributes: {
@@ -269,11 +269,11 @@ router.get("/me", VerifyToken, async (req, res, next) => {
     const user = await models.User.findByPk(req.userId);
     if (!user) {
       throw new ErrorHandler(
-        HttpStatus.NOT_FOUND,
+        StatusCodes.NOT_FOUND,
         `No user with id ${req.userId}`
       );
     }
-    res.status(HttpStatus.OK).json({
+    res.status(StatusCodes.OK).json({
       data: {
         email: user.email,
         firstname: user.firstname,

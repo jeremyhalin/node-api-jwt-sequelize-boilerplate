@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const HttpStatus = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 const { ErrorHandler } = require("../helpers/errorHandler");
 require("dotenv").config();
 
@@ -8,17 +8,16 @@ async function verifyToken(req, res, next) {
     const token = req.headers["x-access-token"];
 
     if (!token) {
-      throw new ErrorHandler(HttpStatus.FORBIDDEN, "No token provided");
+      throw new ErrorHandler(StatusCodes.FORBIDDEN, "No token provided");
     }
 
     await jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
-        throw new ErrorHandler(HttpStatus.FORBIDDEN, err.message);
+        throw new ErrorHandler(StatusCodes.FORBIDDEN, err.message);
       }
-      console.log(decoded);
       req.userId = decoded.id;
 
-      // TODO check if user exists
+      // ? check if user exists
     });
 
     next();
